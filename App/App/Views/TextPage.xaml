@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App.Views.TextPage"
+             NavigationPage.HasNavigationBar="False"
+             >
+    <ContentPage.Content>
+        <StackLayout x:Name="root">
+            <Label Text="Files" VerticalTextAlignment="Center" 
+                   Margin="10"
+                   HorizontalTextAlignment="Center" FontSize="25" FontAttributes="Bold" TextColor="Black"></Label>
+            <!--<Button Text="Show" Clicked="ButtonTemplate_Clicked"></Button>
+            <Button Text="Save" Clicked="Save"></Button>
+            <Button Text="Load" Clicked="Load"></Button>
+            <Entry Text="Scanned_20221227_2" x:Name="CurrentContents"></Entry>
+            <Label Text="" x:Name="labelContent"></Label>
+
+            <Button Text="Scan Page" Clicked="Open_Scan_Page"></Button>-->
+
+            <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                <StackLayout>
+                    <ScrollView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" HorizontalScrollBarVisibility="Never" VerticalScrollBarVisibility="Never">
+                        <StackLayout VerticalOptions="FillAndExpand">
+                            <StackLayout VerticalOptions="FillAndExpand" BindableLayout.ItemsSource="{Binding Dates}">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate>
+
+                                            <StackLayout>
+                                                <Label Text="{Binding CreatedDate}" FontAttributes="Bold" FontSize="20" Padding="10"></Label>
+
+                                                <StackLayout BindableLayout.ItemsSource="{Binding Files}" Spacing="5">
+                                                    <BindableLayout.ItemTemplate>
+                                                        <DataTemplate>
+                                                        <StackLayout Orientation="Horizontal">
+                                                            <StackLayout Padding="10" BackgroundColor="#2200ff00" HorizontalOptions="FillAndExpand">
+                                                                <Label Text="{Binding FileName}" TextColor="#AA000000" FontSize="17"></Label>
+                                                                <Label Text="{Binding CreatedTime}" TextColor="#AA000000" FontSize="17"></Label>
+                                                            </StackLayout>
+                                                            <StackLayout>
+                                                                <Button Text="View" BackgroundColor="Green" Command="{Binding Path=BindingContext.ViewDetailCommand, Source={x:Reference root}}" CommandParameter="{Binding FileName}"></Button>
+                                                                <Button Text="Upload" BackgroundColor="Red" Command="{Binding Path=BindingContext.SendFileCommand, Source={x:Reference root}}" CommandParameter="{Binding FileName}"></Button>
+                                                            </StackLayout>
+                                                        </StackLayout>
+                                                            
+                                                        </DataTemplate>
+                                                    </BindableLayout.ItemTemplate>
+                                                </StackLayout>
+                                            </StackLayout>
+
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+
+                            </StackLayout>
+                        </StackLayout>
+                    </ScrollView>
+                    <Button HorizontalOptions="Fill" Text="Scan" VerticalOptions="End" Command="{Binding OpenScanPageCommand}"></Button>
+
+                </StackLayout>
+
+
+
+                <StackLayout IsVisible="{Binding IsBusy}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Background="#55ffffff">
+                    <ActivityIndicator IsVisible="true" IsRunning="True" IsEnabled="True" Color="#5500ff00"></ActivityIndicator>
+                </StackLayout>
+
+
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
