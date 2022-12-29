@@ -36,13 +36,24 @@ namespace App.Views
                 VerticalOptions = LayoutOptions.CenterAndExpand
             };
 
-            ScanResultDelegate callback;
-
             btnScan.Clicked += async (a, s) =>
             {
+                // Cũ 
                 scanPage = new ZXingScannerPage(new ZXing.Mobile.MobileBarcodeScanningOptions()
                 {
                     DelayBetweenContinuousScans = 0,
+                    PossibleFormats = new List<BarcodeFormat>()
+                    {
+                        BarcodeFormat.CODE_93,
+                        BarcodeFormat.CODE_128,
+                        BarcodeFormat.CODE_39,
+                        BarcodeFormat.EAN_8,
+                        BarcodeFormat.EAN_13,
+                        BarcodeFormat.UPC_EAN_EXTENSION,
+                        BarcodeFormat.ITF,
+                        BarcodeFormat.QR_CODE
+                    },
+                    PureBarcode = true, 
                     //UseNativeScanning = true
                 });
                 this.Times = Preferences.Get(StaticConsts.Times, 1);
@@ -51,21 +62,57 @@ namespace App.Views
                 // Add event loop
                 scanPage.OnScanResult += this.OnResult;
                 await this.Navigation.PushAsync(scanPage);
+
+
+                // Mới
+
+                //var zxing = new ZXingScannerView
+                //{
+                //    HorizontalOptions = LayoutOptions.FillAndExpand,
+                //    VerticalOptions = LayoutOptions.FillAndExpand,
+                //    AutomationId = "zxingScannerView",
+
+                //    Scale = 0.7
+                //};
+                //zxing.AutoFocus(); 
+                //zxing.OnScanResult += this.OnResult;
+
+                //zxing.IsAnalyzing = true;
+                //zxing.IsScanning = true; 
+
+                //var overlay = new ZXingDefaultOverlay
+                //{
+
+
+                //    ShowFlashButton = true,
+                //    AutomationId = "zxingDefaultOverlay",
+                //    Scale = 0.70
+
+                //};
+                //overlay.FlashButtonClicked += (sender, e) =>
+                //{
+                //    zxing.IsTorchOn = !zxing.IsTorchOn;
+                //};
+
+
+                //var grid = new Grid
+                //{
+                //    VerticalOptions = LayoutOptions.FillAndExpand,
+                //    HorizontalOptions = LayoutOptions.FillAndExpand,
+                //};
+
+                //grid.Children.Add(zxing);
+                //grid.Children.Add(overlay);
+
+                //var page = new ContentPage() { BackgroundColor = Color.Black };
+                //page.Content = grid;
+
+                //await this.Navigation.PushAsync(page);
             };
+
 
 
             this.root.Children.Add(btnScan);
-
-            Button btnGotoLoad = new Button
-            {
-                Text = "Scan",
-                HorizontalOptions = LayoutOptions.Center,
-                VerticalOptions = LayoutOptions.EndAndExpand
-            };
-            btnGotoLoad.Clicked += (a, s) =>
-            {
-                Application.Current.MainPage = new NavigationPage(new TextPage());
-            };
         }
 
         public void OnResult(ZXing.Result result)
@@ -117,9 +164,9 @@ namespace App.Views
                     }
                     await this.DisplaySnackBarAsync(option);
 
-                    
 
-                    
+
+
 
                 }
                 else if (result.Text == this.Code && DateTime.Now.Subtract(this.Date).TotalSeconds > 2.5)
